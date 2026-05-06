@@ -1,8 +1,27 @@
+import Foundation
 import Testing
 @testable import PokedexSpecies
 
-@Test func example() async throws {
-    // Write your test here and use APIs like `#expect(...)` to check expected conditions.
-    // Swift Testing Documentation
-    // https://developer.apple.com/documentation/testing
+@Test func includesBulbasaurSpeciesDefinition() {
+    #expect(PokemonSpeciesDefinitions.all.count == 1)
+}
+
+@Test func formatsBulbasaurSpeciesNames() {
+    let english = Locale(languageCode: .english)
+    let japanese = Locale(languageCode: .japanese)
+
+    #expect(PokemonSpecies.bulbasaur.formatted(locale: english) == "Bulbasaur")
+    #expect(PokemonSpecies.bulbasaur.formatted(locale: japanese) == "フシギダネ")
+}
+
+@Test func exposesBulbasaurNationalPokedexNumber() {
+    #expect(PokemonSpecies.bulbasaur.nationalPokedexNumber == 1)
+}
+
+@Test func parsesBulbasaurSpeciesNames() throws {
+    let strategy = PokemonSpecies.ParseStrategy(locale: Locale(languageCode: .japanese))
+
+    #expect(try strategy.parse("フシギダネ") == .bulbasaur)
+    #expect(try strategy.parse("bulbasaur") == .bulbasaur)
+    #expect(try strategy.parse("1") == .bulbasaur)
 }
