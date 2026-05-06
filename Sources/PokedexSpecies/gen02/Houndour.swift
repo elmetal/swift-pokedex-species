@@ -1,0 +1,40 @@
+//
+//  Houndour.swift
+//  PokedexSpecies
+//
+//  Created by elmetal on 2026/05/07
+//
+//
+
+import Foundation
+
+public extension PokemonSpecies {
+    /// The Pokémon species known as デルビル in Japanese.
+    ///
+    /// The localized name of this species is "Houndour" in English and
+    /// "デルビル" in Japanese.
+    ///
+    /// Use this value when you need to refer to Houndour by its canonical
+    /// species identifier.
+    ///
+    /// ```swift
+    /// let species = PokemonSpecies.houndour
+    /// ```
+    ///
+    /// The species' raw value is "houndour".
+    static let houndour = Houndour.species
+}
+
+enum Houndour: PokemonSpeciesDefinition {
+    static let species = PokemonSpecies(rawValue: "houndour")
+    static let nationalPokedexNumber = 228
+
+    static func name(locale: Locale) -> String {
+        switch locale.language.languageCode {
+        case .japanese:
+            "デルビル"
+        default:
+            "Houndour"
+        }
+    }
+}

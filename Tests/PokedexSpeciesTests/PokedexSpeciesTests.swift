@@ -3,7 +3,7 @@ import Testing
 @testable import PokedexSpecies
 
 @Test func includesBulbasaurSpeciesDefinition() {
-    #expect(PokemonSpeciesDefinitions.all.count == 151)
+    #expect(PokemonSpeciesDefinitions.all.count == 251)
     #expect(PokemonSpeciesDefinitions.gen01.count == 151)
     #expect(PokemonSpeciesDefinitions.gen01.first?.species == .bulbasaur)
 }
@@ -53,4 +53,38 @@ import Testing
     #expect(try english.parse("mew") == .mew)
     #expect(try japanese.parse("ミュウ") == .mew)
     #expect(try japanese.parse("151") == .mew)
+}
+
+@Test func includesGeneration02SpeciesDefinitions() {
+    #expect(PokemonSpeciesDefinitions.gen02.count == 100)
+    #expect(PokemonSpeciesDefinitions.gen02.first?.species == .chikorita)
+    #expect(PokemonSpeciesDefinitions.gen02.last?.species == .celebi)
+}
+
+@Test func formatsGeneration02SpeciesNames() {
+    let english = Locale(languageCode: .english)
+    let japanese = Locale(languageCode: .japanese)
+
+    #expect(PokemonSpecies.chikorita.formatted(locale: english) == "Chikorita")
+    #expect(PokemonSpecies.chikorita.formatted(locale: japanese) == "チコリータ")
+    #expect(PokemonSpecies.hoOh.formatted(locale: english) == "Ho-Oh")
+    #expect(PokemonSpecies.hoOh.formatted(locale: japanese) == "ホウオウ")
+    #expect(PokemonSpecies.celebi.formatted(locale: english) == "Celebi")
+    #expect(PokemonSpecies.celebi.formatted(locale: japanese) == "セレビィ")
+}
+
+@Test func exposesGeneration02NationalPokedexNumbers() {
+    #expect(PokemonSpecies.chikorita.nationalPokedexNumber == 152)
+    #expect(PokemonSpecies.porygon2.nationalPokedexNumber == 233)
+    #expect(PokemonSpecies.celebi.nationalPokedexNumber == 251)
+}
+
+@Test func parsesGeneration02SpeciesNames() throws {
+    let english = PokemonSpecies.ParseStrategy(locale: Locale(languageCode: .english))
+    let japanese = PokemonSpecies.ParseStrategy(locale: Locale(languageCode: .japanese))
+
+    #expect(try english.parse("Ho-Oh") == .hoOh)
+    #expect(try english.parse("ho-oh") == .hoOh)
+    #expect(try japanese.parse("ホウオウ") == .hoOh)
+    #expect(try japanese.parse("251") == .celebi)
 }
