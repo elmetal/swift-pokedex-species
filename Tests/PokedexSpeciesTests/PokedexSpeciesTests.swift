@@ -3,7 +3,7 @@ import Testing
 @testable import PokedexSpecies
 
 @Test func includesBulbasaurSpeciesDefinition() {
-    #expect(PokemonSpeciesDefinitions.all.count == 251)
+    #expect(PokemonSpeciesDefinitions.all.count == 386)
     #expect(PokemonSpeciesDefinitions.gen01.count == 151)
     #expect(PokemonSpeciesDefinitions.gen01.first?.species == .bulbasaur)
 }
@@ -87,4 +87,38 @@ import Testing
     #expect(try english.parse("ho-oh") == .hoOh)
     #expect(try japanese.parse("ホウオウ") == .hoOh)
     #expect(try japanese.parse("251") == .celebi)
+}
+
+@Test func includesGeneration03SpeciesDefinitions() {
+    #expect(PokemonSpeciesDefinitions.gen03.count == 135)
+    #expect(PokemonSpeciesDefinitions.gen03.first?.species == .treecko)
+    #expect(PokemonSpeciesDefinitions.gen03.last?.species == .deoxys)
+}
+
+@Test func formatsGeneration03SpeciesNames() {
+    let english = Locale(languageCode: .english)
+    let japanese = Locale(languageCode: .japanese)
+
+    #expect(PokemonSpecies.treecko.formatted(locale: english) == "Treecko")
+    #expect(PokemonSpecies.treecko.formatted(locale: japanese) == "キモリ")
+    #expect(PokemonSpecies.rayquaza.formatted(locale: english) == "Rayquaza")
+    #expect(PokemonSpecies.rayquaza.formatted(locale: japanese) == "レックウザ")
+    #expect(PokemonSpecies.deoxys.formatted(locale: english) == "Deoxys")
+    #expect(PokemonSpecies.deoxys.formatted(locale: japanese) == "デオキシス")
+}
+
+@Test func exposesGeneration03NationalPokedexNumbers() {
+    #expect(PokemonSpecies.treecko.nationalPokedexNumber == 252)
+    #expect(PokemonSpecies.milotic.nationalPokedexNumber == 350)
+    #expect(PokemonSpecies.deoxys.nationalPokedexNumber == 386)
+}
+
+@Test func parsesGeneration03SpeciesNames() throws {
+    let english = PokemonSpecies.ParseStrategy(locale: Locale(languageCode: .english))
+    let japanese = PokemonSpecies.ParseStrategy(locale: Locale(languageCode: .japanese))
+
+    #expect(try english.parse("Rayquaza") == .rayquaza)
+    #expect(try english.parse("rayquaza") == .rayquaza)
+    #expect(try japanese.parse("レックウザ") == .rayquaza)
+    #expect(try japanese.parse("386") == .deoxys)
 }
