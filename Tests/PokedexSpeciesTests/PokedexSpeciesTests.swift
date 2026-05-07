@@ -3,7 +3,7 @@ import Testing
 @testable import PokedexSpecies
 
 @Test func includesBulbasaurSpeciesDefinition() {
-    #expect(PokemonSpeciesDefinitions.all.count == 493)
+    #expect(PokemonSpeciesDefinitions.all.count == 649)
     #expect(PokemonSpeciesDefinitions.gen01.count == 151)
     #expect(PokemonSpeciesDefinitions.gen01.first?.species == .bulbasaur)
 }
@@ -155,4 +155,38 @@ import Testing
     #expect(try english.parse("giratina") == .giratina)
     #expect(try japanese.parse("ギラティナ") == .giratina)
     #expect(try japanese.parse("493") == .arceus)
+}
+
+@Test func includesGeneration05SpeciesDefinitions() {
+    #expect(PokemonSpeciesDefinitions.gen05.count == 156)
+    #expect(PokemonSpeciesDefinitions.gen05.first?.species == .victini)
+    #expect(PokemonSpeciesDefinitions.gen05.last?.species == .genesect)
+}
+
+@Test func formatsGeneration05SpeciesNames() {
+    let english = Locale(languageCode: .english)
+    let japanese = Locale(languageCode: .japanese)
+
+    #expect(PokemonSpecies.victini.formatted(locale: english) == "Victini")
+    #expect(PokemonSpecies.victini.formatted(locale: japanese) == "ビクティニ")
+    #expect(PokemonSpecies.reshiram.formatted(locale: english) == "Reshiram")
+    #expect(PokemonSpecies.reshiram.formatted(locale: japanese) == "レシラム")
+    #expect(PokemonSpecies.genesect.formatted(locale: english) == "Genesect")
+    #expect(PokemonSpecies.genesect.formatted(locale: japanese) == "ゲノセクト")
+}
+
+@Test func exposesGeneration05NationalPokedexNumbers() {
+    #expect(PokemonSpecies.victini.nationalPokedexNumber == 494)
+    #expect(PokemonSpecies.reshiram.nationalPokedexNumber == 643)
+    #expect(PokemonSpecies.genesect.nationalPokedexNumber == 649)
+}
+
+@Test func parsesGeneration05SpeciesNames() throws {
+    let english = PokemonSpecies.ParseStrategy(locale: Locale(languageCode: .english))
+    let japanese = PokemonSpecies.ParseStrategy(locale: Locale(languageCode: .japanese))
+
+    #expect(try english.parse("Reshiram") == .reshiram)
+    #expect(try english.parse("reshiram") == .reshiram)
+    #expect(try japanese.parse("レシラム") == .reshiram)
+    #expect(try japanese.parse("649") == .genesect)
 }
