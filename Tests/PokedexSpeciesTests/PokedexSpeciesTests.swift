@@ -3,7 +3,7 @@ import Testing
 @testable import PokedexSpecies
 
 @Test func includesBulbasaurSpeciesDefinition() {
-    #expect(PokemonSpeciesDefinitions.all.count == 649)
+    #expect(PokemonSpeciesDefinitions.all.count == 721)
     #expect(PokemonSpeciesDefinitions.gen01.count == 151)
     #expect(PokemonSpeciesDefinitions.gen01.first?.species == .bulbasaur)
 }
@@ -189,4 +189,38 @@ import Testing
     #expect(try english.parse("reshiram") == .reshiram)
     #expect(try japanese.parse("レシラム") == .reshiram)
     #expect(try japanese.parse("649") == .genesect)
+}
+
+@Test func includesGeneration06SpeciesDefinitions() {
+    #expect(PokemonSpeciesDefinitions.gen06.count == 72)
+    #expect(PokemonSpeciesDefinitions.gen06.first?.species == .chespin)
+    #expect(PokemonSpeciesDefinitions.gen06.last?.species == .volcanion)
+}
+
+@Test func formatsGeneration06SpeciesNames() {
+    let english = Locale(languageCode: .english)
+    let japanese = Locale(languageCode: .japanese)
+
+    #expect(PokemonSpecies.chespin.formatted(locale: english) == "Chespin")
+    #expect(PokemonSpecies.chespin.formatted(locale: japanese) == "ハリマロン")
+    #expect(PokemonSpecies.flabebe.formatted(locale: english) == "Flabébé")
+    #expect(PokemonSpecies.flabebe.formatted(locale: japanese) == "フラベベ")
+    #expect(PokemonSpecies.volcanion.formatted(locale: english) == "Volcanion")
+    #expect(PokemonSpecies.volcanion.formatted(locale: japanese) == "ボルケニオン")
+}
+
+@Test func exposesGeneration06NationalPokedexNumbers() {
+    #expect(PokemonSpecies.chespin.nationalPokedexNumber == 650)
+    #expect(PokemonSpecies.flabebe.nationalPokedexNumber == 669)
+    #expect(PokemonSpecies.volcanion.nationalPokedexNumber == 721)
+}
+
+@Test func parsesGeneration06SpeciesNames() throws {
+    let english = PokemonSpecies.ParseStrategy(locale: Locale(languageCode: .english))
+    let japanese = PokemonSpecies.ParseStrategy(locale: Locale(languageCode: .japanese))
+
+    #expect(try english.parse("Flabébé") == .flabebe)
+    #expect(try english.parse("flabebe") == .flabebe)
+    #expect(try japanese.parse("フラベベ") == .flabebe)
+    #expect(try japanese.parse("721") == .volcanion)
 }
