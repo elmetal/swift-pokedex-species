@@ -3,7 +3,7 @@ import Testing
 @testable import PokedexSpecies
 
 @Test func includesBulbasaurSpeciesDefinition() {
-    #expect(PokemonSpeciesDefinitions.all.count == 386)
+    #expect(PokemonSpeciesDefinitions.all.count == 493)
     #expect(PokemonSpeciesDefinitions.gen01.count == 151)
     #expect(PokemonSpeciesDefinitions.gen01.first?.species == .bulbasaur)
 }
@@ -121,4 +121,38 @@ import Testing
     #expect(try english.parse("rayquaza") == .rayquaza)
     #expect(try japanese.parse("レックウザ") == .rayquaza)
     #expect(try japanese.parse("386") == .deoxys)
+}
+
+@Test func includesGeneration04SpeciesDefinitions() {
+    #expect(PokemonSpeciesDefinitions.gen04.count == 107)
+    #expect(PokemonSpeciesDefinitions.gen04.first?.species == .turtwig)
+    #expect(PokemonSpeciesDefinitions.gen04.last?.species == .arceus)
+}
+
+@Test func formatsGeneration04SpeciesNames() {
+    let english = Locale(languageCode: .english)
+    let japanese = Locale(languageCode: .japanese)
+
+    #expect(PokemonSpecies.turtwig.formatted(locale: english) == "Turtwig")
+    #expect(PokemonSpecies.turtwig.formatted(locale: japanese) == "ナエトル")
+    #expect(PokemonSpecies.giratina.formatted(locale: english) == "Giratina")
+    #expect(PokemonSpecies.giratina.formatted(locale: japanese) == "ギラティナ")
+    #expect(PokemonSpecies.arceus.formatted(locale: english) == "Arceus")
+    #expect(PokemonSpecies.arceus.formatted(locale: japanese) == "アルセウス")
+}
+
+@Test func exposesGeneration04NationalPokedexNumbers() {
+    #expect(PokemonSpecies.turtwig.nationalPokedexNumber == 387)
+    #expect(PokemonSpecies.porygonZ.nationalPokedexNumber == 474)
+    #expect(PokemonSpecies.arceus.nationalPokedexNumber == 493)
+}
+
+@Test func parsesGeneration04SpeciesNames() throws {
+    let english = PokemonSpecies.ParseStrategy(locale: Locale(languageCode: .english))
+    let japanese = PokemonSpecies.ParseStrategy(locale: Locale(languageCode: .japanese))
+
+    #expect(try english.parse("Giratina") == .giratina)
+    #expect(try english.parse("giratina") == .giratina)
+    #expect(try japanese.parse("ギラティナ") == .giratina)
+    #expect(try japanese.parse("493") == .arceus)
 }
