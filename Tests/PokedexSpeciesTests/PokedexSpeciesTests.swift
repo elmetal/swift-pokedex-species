@@ -3,7 +3,7 @@ import Testing
 @testable import PokedexSpecies
 
 @Test func includesBulbasaurSpeciesDefinition() {
-    #expect(PokemonSpeciesDefinitions.all.count == 905)
+    #expect(PokemonSpeciesDefinitions.all.count == 1025)
     #expect(PokemonSpeciesDefinitions.gen01.count == 151)
     #expect(PokemonSpeciesDefinitions.gen01.first?.species == .bulbasaur)
 }
@@ -291,4 +291,38 @@ import Testing
     #expect(try english.parse("sirfetchd") == .sirfetchd)
     #expect(try japanese.parse("ネギガナイト") == .sirfetchd)
     #expect(try japanese.parse("905") == .enamorus)
+}
+
+@Test func includesGeneration09SpeciesDefinitions() {
+    #expect(PokemonSpeciesDefinitions.gen09.count == 120)
+    #expect(PokemonSpeciesDefinitions.gen09.first?.species == .sprigatito)
+    #expect(PokemonSpeciesDefinitions.gen09.last?.species == .pecharunt)
+}
+
+@Test func formatsGeneration09SpeciesNames() {
+    let english = Locale(languageCode: .english)
+    let japanese = Locale(languageCode: .japanese)
+
+    #expect(PokemonSpecies.sprigatito.formatted(locale: english) == "Sprigatito")
+    #expect(PokemonSpecies.sprigatito.formatted(locale: japanese) == "ニャオハ")
+    #expect(PokemonSpecies.woChien.formatted(locale: english) == "Wo-Chien")
+    #expect(PokemonSpecies.woChien.formatted(locale: japanese) == "チオンジェン")
+    #expect(PokemonSpecies.pecharunt.formatted(locale: english) == "Pecharunt")
+    #expect(PokemonSpecies.pecharunt.formatted(locale: japanese) == "モモワロウ")
+}
+
+@Test func exposesGeneration09NationalPokedexNumbers() {
+    #expect(PokemonSpecies.sprigatito.nationalPokedexNumber == 906)
+    #expect(PokemonSpecies.woChien.nationalPokedexNumber == 1001)
+    #expect(PokemonSpecies.pecharunt.nationalPokedexNumber == 1025)
+}
+
+@Test func parsesGeneration09SpeciesNames() throws {
+    let english = PokemonSpecies.ParseStrategy(locale: Locale(languageCode: .english))
+    let japanese = PokemonSpecies.ParseStrategy(locale: Locale(languageCode: .japanese))
+
+    #expect(try english.parse("Wo-Chien") == .woChien)
+    #expect(try english.parse("wo-chien") == .woChien)
+    #expect(try japanese.parse("チオンジェン") == .woChien)
+    #expect(try japanese.parse("1025") == .pecharunt)
 }
