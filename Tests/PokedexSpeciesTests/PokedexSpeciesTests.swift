@@ -3,7 +3,7 @@ import Testing
 @testable import PokedexSpecies
 
 @Test func includesBulbasaurSpeciesDefinition() {
-    #expect(PokemonSpeciesDefinitions.all.count == 721)
+    #expect(PokemonSpeciesDefinitions.all.count == 809)
     #expect(PokemonSpeciesDefinitions.gen01.count == 151)
     #expect(PokemonSpeciesDefinitions.gen01.first?.species == .bulbasaur)
 }
@@ -223,4 +223,38 @@ import Testing
     #expect(try english.parse("flabebe") == .flabebe)
     #expect(try japanese.parse("フラベベ") == .flabebe)
     #expect(try japanese.parse("721") == .volcanion)
+}
+
+@Test func includesGeneration07SpeciesDefinitions() {
+    #expect(PokemonSpeciesDefinitions.gen07.count == 88)
+    #expect(PokemonSpeciesDefinitions.gen07.first?.species == .rowlet)
+    #expect(PokemonSpeciesDefinitions.gen07.last?.species == .melmetal)
+}
+
+@Test func formatsGeneration07SpeciesNames() {
+    let english = Locale(languageCode: .english)
+    let japanese = Locale(languageCode: .japanese)
+
+    #expect(PokemonSpecies.rowlet.formatted(locale: english) == "Rowlet")
+    #expect(PokemonSpecies.rowlet.formatted(locale: japanese) == "モクロー")
+    #expect(PokemonSpecies.typeNull.formatted(locale: english) == "Type: Null")
+    #expect(PokemonSpecies.typeNull.formatted(locale: japanese) == "タイプ：ヌル")
+    #expect(PokemonSpecies.melmetal.formatted(locale: english) == "Melmetal")
+    #expect(PokemonSpecies.melmetal.formatted(locale: japanese) == "メルメタル")
+}
+
+@Test func exposesGeneration07NationalPokedexNumbers() {
+    #expect(PokemonSpecies.rowlet.nationalPokedexNumber == 722)
+    #expect(PokemonSpecies.typeNull.nationalPokedexNumber == 772)
+    #expect(PokemonSpecies.melmetal.nationalPokedexNumber == 809)
+}
+
+@Test func parsesGeneration07SpeciesNames() throws {
+    let english = PokemonSpecies.ParseStrategy(locale: Locale(languageCode: .english))
+    let japanese = PokemonSpecies.ParseStrategy(locale: Locale(languageCode: .japanese))
+
+    #expect(try english.parse("Type: Null") == .typeNull)
+    #expect(try english.parse("type-null") == .typeNull)
+    #expect(try japanese.parse("タイプ：ヌル") == .typeNull)
+    #expect(try japanese.parse("809") == .melmetal)
 }

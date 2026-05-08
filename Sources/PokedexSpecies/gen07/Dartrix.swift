@@ -1,0 +1,40 @@
+//
+//  Dartrix.swift
+//  PokedexSpecies
+//
+//  Created by elmetal on 2026/05/07
+//
+//
+
+import Foundation
+
+public extension PokemonSpecies {
+    /// The Pokémon species known as フクスロー in Japanese.
+    ///
+    /// The localized name of this species is "Dartrix" in English and
+    /// "フクスロー" in Japanese.
+    ///
+    /// Use this value when you need to refer to Dartrix by its canonical
+    /// species identifier.
+    ///
+    /// ```swift
+    /// let species = PokemonSpecies.dartrix
+    /// ```
+    ///
+    /// The species' raw value is "dartrix".
+    static let dartrix = Dartrix.species
+}
+
+enum Dartrix: PokemonSpeciesDefinition {
+    static let species = PokemonSpecies(rawValue: "dartrix")
+    static let nationalPokedexNumber = 723
+
+    static func name(locale: Locale) -> String {
+        switch locale.language.languageCode {
+        case .japanese:
+            "フクスロー"
+        default:
+            "Dartrix"
+        }
+    }
+}
