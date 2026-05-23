@@ -6,11 +6,10 @@
 //
 //
 
-public struct PokemonSpecies: Hashable, Codable, Sendable, RawRepresentable {
+public struct PokemonSpecies: Hashable, Codable, Sendable, RawRepresentable, CaseIterable {
     public let rawValue: String
 
     public init(rawValue: String) {
         self.rawValue = rawValue
     }
 }
-

@@ -8,6 +8,12 @@ import Testing
     #expect(PokemonSpeciesDefinitions.gen01.first?.species == .bulbasaur)
 }
 
+@Test func exposesAllDefinedSpecies() {
+    #expect(PokemonSpecies.allCases.count == 1025)
+    #expect(PokemonSpecies.allCases.first == .bulbasaur)
+    #expect(PokemonSpecies.allCases.last == .pecharunt)
+}
+
 @Test func formatsBulbasaurSpeciesNames() {
     let english = Locale(languageCode: .english)
     let japanese = Locale(languageCode: .japanese)
